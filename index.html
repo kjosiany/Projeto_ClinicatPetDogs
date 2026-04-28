@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Pacientes</title>
+
+<style>
+body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f9;
+        padding: 20px;
+        justify-content: space-around; 
+        }
+    
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+}
+
+#Painel {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#Painel h3 {
+    font-size: 28px;
+    color: #000000;
+    letter-spacing: 1px;
+}
+
+#Painel::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 3px;
+    background-color: #000000;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+    #AgurdandoAtendi {
+        background-color: #ffe082;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgb(233, 227, 227, 0.1);
+        padding: 15px;
+        min-height: 400px;
+    }
+    #emAtendimento {
+        background-color: #81d4fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgb(3, 3, 3);
+        padding: 15px;
+        min-height: 400px;
+    }
+    #EmObservacao {
+        background-color: #ffcc80;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgb(3, 3, 3);
+        padding: 15px;
+        min-height: 400px; 
+    }
+
+    #EmInternacao {
+      
+        background-color: #ef9a9a;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgb(3, 3, 3);
+        padding: 15px;
+        min-height: 400px; 
+    } 
+    h1 {
+        text-align: center;
+        color: #000000;
+        border-bottom: 2px solid #1976d2;
+        padding-bottom: 10px;
+    }
+
+    p {
+        background-color: #fefefe;
+        border-left: 5px solid #140e27;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        font-weight: bold;
+}    
+</style>
+
+</head>
+<body>
+
+    <div id= "Painel">
+    <H3>Painel de Atendimento Veterinário</H3>
+    </div>
+
+    <div class="container">
+
+    
+    <div id="AgurdandoAtendi">
+    <h1>Aguardando Atendimento</h1>
+    <div id="listaaguaatend">
+        </div>
+</div> 
+<div id="emAtendimento">
+    <h1>Em Atendimento</h1>
+    <div id="listaatendimento">
+        </div>
+</div>
+
+<div  id= "EmObservacao">
+<h1> Em Observaçao</h1>
+<div id ="listaEmObs">
+</div>
+</div>
+
+<div  id= "EmInternacao">
+<h1> Em Internaçao</h1>
+<div id ="listaInterna">
+</div>
+</div>
+
+</div>
+
+<script>
+const divPendentes = document.getElementById('listaaguaatend');
+const divProntos = document.getElementById('listaatendimento');
+const divobs = document.getElementById ('listaEmObs');
+const divInterna = document.getElementById ('listaInterna')
+function carregarAtendimentos() {
+
+
+fetch("http://localhost:3001/atendimentos",
+   { method: "GET"}
+)
+  .then(response => response.json())
+  .then(atendimentos => {
+    console.log(atendimentos);
+
+divPendentes.innerHTML = "";
+divProntos.innerHTML = "";
+divobs.innerHTML = "";
+divInterna.innerHTML = "";
+
+    atendimentos.forEach(atendimento => {
+      // Normalizando a string para comparar sem acentos
+      const situacao = atendimento.SITUACAO
+      ;
+
+      // LÓGICA DE SEPARAÇÃO:
+      if ( situacao === "AGUARDANDO ATENDIMENTO") {
+        divPendentes.innerHTML += 
+          `<p>Paciente: ${atendimento.PACIENTE} | Espécie: ${atendimento.especie}</p>`;
+
+      } else if (situacao === "EM ATENDIMENTO") {
+        divProntos.innerHTML += 
+          `<p>Paciente: ${atendimento.PACIENTE} | Espécie: ${atendimento.especie}</p>`;
+
+      } else if (situacao === "EM OBSERVAÇAO") {
+        divobs.innerHTML += 
+          `<p>Paciente: ${atendimento.PACIENTE} | Espécie: ${atendimento.especie}</p>`;
+      } else if (situacao === "EM INTERNAÇÃO") {
+        divInterna.innerHTML +=          
+        `<p>Paciente: ${atendimento.PACIENTE} | Espécie: ${atendimento.especie}</p>`;
+      }
+
+    });
+  })
+  .catch(erro => {
+    console.error("Erro ao buscar dados:", erro);
+  });
+}
+  carregarAtendimentos();
+
+setInterval(carregarAtendimentos, 5000);
+
+</script>
+
+
+</body>
