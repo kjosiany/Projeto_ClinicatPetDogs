@@ -16,7 +16,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Servidor funcionando");
 });
-
+// ROTA JOIN DE PACIENTES E ATENDIMENTOS
 app.get("/atendimentos", (req, res) => {
   db.all("SELECT AOS.ID_ATENDIMENTO,AOS.ID_PACIENTE,PCT.PACIENTE, PCT.especie, AOS.DATA_ATENDIMENTO, AOS.VETERINARIO, AOS.SITUACAO, AOS.SINTOMAS FROM ATENDIMENTOS AOS LEFT JOIN PACIENTES PCT ON PCT.ID= AOS.ID_PACIENTE", [], (err, rows) => {
     if (err) {
@@ -25,6 +25,63 @@ app.get("/atendimentos", (req, res) => {
     } else {
       res.json(rows);
     }
+  });
+});
+
+
+app.get("/pacientes", (req, res) => {
+  db.all("SELECT ID, PACIENTE, especie FROM PACIENTES", [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ erro: err.message });
+    }
+    res.json(rows);
+  });
+});
+
+
+//ATENDIMENTOS (INSERÇAO DE DADOS)
+app.post("/atendimentos", (req, res) => {
+    const { ID_PACIENTE, DATA_ATENDIMENTO, VETERINARIO, SITUACAO, SINTOMAS } = req.body;
+
+    const sql = `
+        INSERT INTO ATENDIMENTOS 
+        (ID_PACIENTE, DATA_ATENDIMENTO, VETERINARIO, SITUACAO, SINTOMAS)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+
+    const params = [
+        ID_PACIENTE,
+        DATA_ATENDIMENTO,
+        VETERINARIO || null,
+        SITUACAO,
+        SINTOMAS
+    ];
+
+    db.run(sql, params, function(err) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ erro: err.message });
+        }
+
+        res.json({
+            mensagem: "Salvo com sucesso",
+            id: this.lastID
+        });
+    });
+});
+const path = require("path");
+
+app.use(express.static(__dirname));
+
+//ROTA SITUAÇAO ATENDIMENTOS
+app.get("/situacao", (req, res) => {
+  const sql = "SELECT DISTINCT SITUACAO FROM ATENDIMENTOS";
+
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ erro: err.message });
+    }
+    res.json(rows);
   });
 });
 
