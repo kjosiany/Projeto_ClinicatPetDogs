@@ -16,7 +16,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Servidor funcionando");
 });
-// ROTA JOIN DE PACIENTES E ATENDIMENTOS
+// JOIN DE PACIENTES E ATENDIMENTOS
 app.get("/atendimentos", (req, res) => {
   db.all("SELECT AOS.ID_ATENDIMENTO,AOS.ID_PACIENTE,PCT.PACIENTE, PCT.especie, AOS.DATA_ATENDIMENTO, AOS.VETERINARIO, AOS.SITUACAO, AOS.SINTOMAS FROM ATENDIMENTOS AOS LEFT JOIN PACIENTES PCT ON PCT.ID= AOS.ID_PACIENTE", [], (err, rows) => {
     if (err) {
@@ -39,7 +39,7 @@ app.get("/pacientes", (req, res) => {
 });
 
 
-//ATENDIMENTOS (INSERÇAO DE DADOS)
+//ROTA CADASTRO DE ATENDIMENTOS
 app.post("/atendimentos", (req, res) => {
     const { ID_PACIENTE, DATA_ATENDIMENTO, VETERINARIO, SITUACAO, SINTOMAS } = req.body;
 
@@ -73,7 +73,7 @@ const path = require("path");
 
 app.use(express.static(__dirname));
 
-//ROTA SITUAÇAO ATENDIMENTOS
+//ROTA SITUAÇAO DOS ATENDIMENTOS
 app.get("/situacao", (req, res) => {
   const sql = "SELECT DISTINCT SITUACAO FROM ATENDIMENTOS";
 
@@ -83,6 +83,52 @@ app.get("/situacao", (req, res) => {
     }
     res.json(rows);
   });
+});
+
+
+
+// Rota de Cadastro de Pets 
+app.post("/pacientes", (req, res) => {
+
+    const {
+        PACIENTE,
+        TUTOR,
+        IDADE,
+        ESPECIE,
+        SEXO
+    } = req.body;
+
+    const sql = `
+        INSERT INTO PACIENTES
+        (PACIENTE, TUTOR, IDADE, especie, SEXO)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+
+    const params = [
+        PACIENTE,
+        TUTOR,
+        IDADE,
+        ESPECIE,
+        SEXO
+    ];
+
+    db.run(sql, params, function(err) {
+
+        if (err) {
+            console.log(err);
+
+            return res.status(500).json({
+                erro: err.message
+            });
+        }
+
+        res.json({
+            mensagem: "Paciente cadastrado com sucesso🐾",
+            id: this.lastID
+        });
+
+    });
+
 });
 
 app.listen(3001, () => {
