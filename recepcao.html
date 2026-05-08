@@ -164,7 +164,6 @@ button:active {
 <script>
     const form = document.getElementById("formAtendimento");
 
-// 🔹 PACIENTES
 fetch("http://localhost:3001/pacientes")
 .then(res => res.json())
 .then(pacientes => {
@@ -182,7 +181,6 @@ fetch("http://localhost:3001/pacientes")
 .catch(err => console.error("Erro pacientes:", err));
 
 
-// 🔹 SITUAÇÕES
 fetch("http://localhost:3001/situacao")
 .then(res => res.json())
 .then(situacao => {
@@ -199,7 +197,6 @@ fetch("http://localhost:3001/situacao")
 })
 
 
-// 🔹 FORM
 form.addEventListener("submit", function(event) {
     event.preventDefault();
 
