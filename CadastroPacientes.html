@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pacientes</title>
+</head>
+
+<body>
+
+<h1>Cadastro de Pacientes - ClinicatPetDogs</h1>
+
+<form id="formPaciente">
+
+    <div class="campo">
+        <label for="nomePet">Nome do Pet:</label>
+        <input type="text" id="nomePet" placeholder="Nome do Pet" required>
+    </div>
+
+    <div class="campo">
+        <label for="nomeTutor">Nome do Tutor:</label>
+        <input type="text" id="nomeTutor" placeholder="Nome do Tutor" required>
+    </div>
+
+    <div class="campo">
+        <label for="idadePet">Idade:</label>
+        <input type="text" id="idadePet" placeholder="Ex: 5 anos">
+    </div>
+
+    <div class="campo">
+        <label for="especie">Espécie:</label>
+        <input type="text" id="especie" placeholder="Espécie" required>
+    </div>
+
+    <div class="campo">
+        <label for="sexo">Sexo:</label>
+
+        <select id="sexo" required>
+            <option value="">Selecione...</option>
+            <option value="Femea">Fêmea</option>
+            <option value="Macho">Macho</option>
+            <option value="Nao Indefinido">Sexo não definido</option>
+        </select>
+    </div>
+
+    <button type="submit">Finalizar Cadastro</button>
+
+</form>
+
+
+<script>
+
+const form = document.getElementById("formPaciente");
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const dados = {
+        PACIENTE: document.getElementById("nomePet").value.trim(),
+        TUTOR: document.getElementById("nomeTutor").value.trim(),
+        IDADE: document.getElementById("idadePet").value,
+        ESPECIE: document.getElementById("especie").value.trim(),
+        SEXO: document.getElementById("sexo").value
+    };
+
+    fetch("http://localhost:3001/pacientes", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dados)
+    })
+
+    .then(response => response.json())
+    .then(() => {
+        alert("Paciente cadastrado com sucesso!🐾");
+        form.reset();
+    })
+
+    .catch(error => {
+        console.error(error);
+        alert("Erro ao cadastrar paciente.");
+
+    });
+
+});
+
+</script>
+
+
+
+</body>
+</html>
