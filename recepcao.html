@@ -2,245 +2,254 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Atendimento - ClinicatPetDogs</title>
+    <title>Nova Recepção - ClinicatPetDogs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #eef2f7;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        body {
+            padding-top: 100px !important;
+        }
 
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #aba1ef;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        h1 {
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #2c3e50;
+            text-align: center;
+        }
 
-h1 {
-    margin: 20px 0 30px 0;
-    font-size: 28px;
-    text-align: center;
-    color: #000;
-}
+        #formAtendimento {
+            width: 100%;
+            max-width: 550px; 
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+        }
 
-#formAtendimento {
-    width: 100%;
-    max-width: 700px; 
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px; 
-}
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-.campo {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+        label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #5a6c7d;
+        }
 
-label {
-    font-size: 16px;
-    font-weight: 800; 
-    color: #000;
-    text-transform: uppercase;
-}
+        input, select, textarea {
+            padding: 12px 14px;
+            border: 1px solid #ccd1d9;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #333;
+            outline: none;
+            transition: border-color 0.2s;
+            background-color: #fcfdfd;
+            font-family: inherit;
+        }
 
-input, select, textarea {
-    width: 100%;
-    padding: 18px;
-    font-size: 18px;
-    border: 2px solid #000;
-    border-radius: 12px;
+        input:focus, select:focus, textarea:focus {
+            border-color: #37698d;
+            background-color: #fff;
+        }
 
-    background: #ffffff;   
-    color: #000000;           
-    -webkit-text-fill-color: #000; 
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
 
-    outline: none;
-    transition: 0.2s;
-}
+        button {
+            margin-top: 10px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #37698d;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
 
-::placeholder {
-    color: #666;
-    opacity: 1;
-}
+        button:hover {
+            background: #2c5472;
+        }
 
-input:focus, select:focus, textarea:focus {
-    background: #ffffff;
-    color: #000000;
-    -webkit-text-fill-color: #000;
-
-    border-color: #37698d;
-    box-shadow: 0 0 0 3px rgba(55,105,141,0.2);
-}
-
-textarea {
-    height: 150px;
-    resize: none;
-}
-
-button {
-    width: 100%;
-    padding: 22px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    background: #37698d;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    box-shadow: 0 6px 0 #254a65; 
-    transition: 0.1s;
-    margin-top: 10px;
-}
-
-button:hover {
-    filter: brightness(1.1);
-}
-
-button:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 0 #254a65;
-}
-
-#mensagem {
-    text-align: center;
-    font-size: 18px;
-    margin-top: 20px;
-    font-weight: bold;
-}
-</style>
-
-
+        #mensagem {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
 </head>
-
 <body>
 
-<h1>Cadastro de Atendimento - ClinicatPetDogs</h1>
+    <nav class="navbar">
+        <div class="nav-logo">ClinicatPetDogs 🐾</div>
+        <div class="nav-links">
+            <a href="/login">Login</a>
+            <a href="/cadastro">Cadastrar Paciente</a>
+            <a href="/painel">Painel de Atendimentos</a>
+        </div>
+    </nav>
 
+    <style>
+        .navbar {
+            width: 100%;
+            background-color: #37698d;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .nav-logo { color: white; font-size: 20px; font-weight: bold; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: #eef2f7; text-decoration: none; font-weight: 600; font-size: 15px; transition: color 0.2s; }
+        .nav-links a:hover { color: #a1c4fd; }
+    </style>
+    <h1>Entrada de Paciente 🐾</h1>
 
-<form id="formAtendimento">
-    <div class="campo">
-        <label for="paciente">Paciente:</label>
-        <select id="paciente" required>
-            <option value="">Carregando...</option>
-        </select>
-    </div>
+    <form id="formAtendimento">
+        <div class="campo">
+            <label for="paciente">Selecione o Paciente:</label>
+            <select id="paciente" required>
+                <option value="">Carregando pacientes...</option>
+            </select>
+        </div>
 
-    <div class="campo">
-        <label for="data">Data do Atendimento:</label>
-        <input type="date" id="data" required>
-    </div>
+        <div class="campo">
+            <label for="data">Data do Atendimento:</label>
+            <input type="datetime-local" id="data" required>
+        </div>
 
-    <div class="campo">
-        <label for="veterinario">Veterinário:</label>
-        <input type="text" id="veterinario" placeholder="Nome do Veterinário Responsavel">
-    </div>
+        <div class="campo">
+            <label for="veterinario">Veterinário Responsável:</label>
+            <input type="text" id="veterinario" placeholder="Ex: Dr. Silva">
+        </div>
 
-    <div class="campo">
-        <label for="situacao">Situação:</label>
-        <select id="situacao" required>
-            <option value="">Carregando...</option>
-        </select>
-    </div>
+        <div class="campo">
+            <label for="situacao">Situação / Fila Inicial:</label>
+            <select id="situacao" required>
+                <option value="">Carregando status...</option>
+            </select>
+        </div>
 
-    <div class="campo" style="grid-column: span 2;">
-        <label for="sintomas">Sintomas Observados:</label>
-        <textarea id="sintomas" placeholder="Descreva o que o pet está sentindo..." required></textarea>
-    </div>
+        <div class="campo">
+            <label for="sintomas">Sintomas / Triagem Inicial:</label>
+            <textarea id="sintomas" placeholder="O que o pet está a sentir?" required></textarea>
+        </div>
 
-    <button type="submit">Finalizar Cadastro</button>
-</form>
+        <button type="submit">Dar Entrada no Atendimento</button>
+        <p id="mensagem"></p>
+    </form>
 
-<p id="mensagem"></p>
+    <script>
+        const selectPacientes = document.getElementById("paciente");
+        const selectSituacao = document.getElementById("situacao");
+        const form = document.getElementById("formAtendimento");
 
-<script>
-    const form = document.getElementById("formAtendimento");
+        // Define automaticamente o dia e hora atual no input para poupar cliques
+        document.getElementById('data').value = new Date().toISOString().slice(0, 16);
 
-fetch("http://localhost:3001/pacientes")
-.then(res => res.json())
-.then(pacientes => {
-    const select = document.getElementById("paciente");
+        // 🔹 BUSCAR PACIENTES DO SERVIDOR (PORTA 3001)
+        fetch("http://localhost:3001/pacientes")
+        .then(res => res.json())
+        .then(pacientes => {
+            selectPacientes.innerHTML = '<option value="">Escolha o pet...</option>';
+            pacientes.forEach(p => {
+                const option = document.createElement("option");
+                option.value = p.ID;
+                option.textContent = `${p.PACIENTE} (${p.especie})`;
+                selectPacientes.appendChild(option);
+            });
+        })
+        .catch(() => { selectPacientes.innerHTML = '<option value="">Erro ao carregar</option>'; });
 
-        select.innerHTML = '<option value="">Selecione...</option>';
+        // 🔹 BUSCAR SITUAÇÕES DO SERVIDOR
+        fetch("http://localhost:3001/situacao")
+        .then(res => res.json())
+        .then(situacoes => {
+            selectSituacao.innerHTML = '<option value="">Defina a fila...</option>';
+            if(situacoes.length === 0) {
+                // Opções padrão automáticas se o banco estiver vazio
+                const padroes = ["AGUARDANDO ATENDIMENTO", "EM ATENDIMENTO", "EM OBSERVAÇÃO", "EM INTERNAÇÃO"];
+                padroes.forEach(s => {
+                    const option = document.createElement("option");
+                    option.value = s; option.textContent = s;
+                    selectSituacao.appendChild(option);
+                });
+            } else {
+                situacoes.forEach(s => {
+                    const option = document.createElement("option");
+                    option.value = s.SITUACAO;
+                    option.textContent = s.SITUACAO;
+                    selectSituacao.appendChild(option);
+                });
+            }
+        });
 
-    pacientes.forEach(p => {
-        const option = document.createElement("option");
-        option.value = p.ID;
-        option.textContent = p.PACIENTE + " (" + p.especie + ")";
-        select.appendChild(option);
-    });
-})
-.catch(err => console.error("Erro pacientes:", err));
+        // 🔹 ENVIAR OS DADOS PARA O BACKEND
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
 
+            const dados = {
+                ID_PACIENTE: selectPacientes.value,
+                DATA_ATENDIMENTO: document.getElementById("data").value,
+                VETERINARIO: document.getElementById("veterinario").value.trim().toUpperCase(),
+                SITUACAO: selectSituacao.value,
+                SINTOMAS: document.getElementById("sintomas").value.trim().toUpperCase()
+            };
 
-fetch("http://localhost:3001/situacao")
-.then(res => res.json())
-.then(situacao => {
-    const select = document.getElementById("situacao");
-
-    select.innerHTML = '<option value="">Selecione...</option>';
-
-    situacao.forEach(s => {
-        const option = document.createElement("option");
-        option.value = s.SITUACAO;
-        option.textContent = s.SITUACAO;
-        select.appendChild(option);
-    });
-})
-
-
-form.addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const dados = {
-        ID_PACIENTE: document.getElementById("paciente").value,
-        DATA_ATENDIMENTO: document.getElementById("data").value,
-        VETERINARIO: document.getElementById("veterinario").value.trim().toUpperCase(),
-        SITUACAO: document.getElementById("situacao").value,
-        SINTOMAS: document.getElementById("sintomas").value.trim().toUpperCase()
-    };
-
-    if (!dados.ID_PACIENTE || !dados.DATA_ATENDIMENTO || !dados.SITUACAO || !dados.SINTOMAS) {
-        alert("Preencha os campos obrigatórios!!");
-        return;
-    }
-
-    fetch("http://localhost:3001/atendimentos", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dados)
-    })
-    .then(res => res.json())
-    .then(() => {
-        const msg = document.getElementById("mensagem");
-
-        msg.style.display = "block";
-        msg.style.color = "green";
-        msg.textContent = "🐾 Atendimento cadastrado com sucesso!";
-
-        form.reset();
-
-        setTimeout(() => {
-            msg.style.display = "none";
-        }, 3000);
-    })
-    .catch(err => {
-        console.error(err);
-        alert("Erro ao salvar");
-    });
-});
-</SCRIPT>
-
-
+            fetch("http://localhost:3001/atendimentos", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)
+            })
+            .then(res => {
+                if(!res.ok) throw new Error();
+                return res.json();
+            })
+            .then(() => {
+                const msg = document.getElementById("mensagem");
+                msg.style.display = "block";
+                msg.style.color = "#1f7a1f";
+                msg.textContent = "🐾 Atendimento registrado com sucesso!";
+                form.reset();
+                document.getElementById('data').value = new Date().toISOString().slice(0, 16);
+            })
+            .catch(() => {
+                const msg = document.getElementById("mensagem");
+                msg.style.display = "block";
+                msg.style.color = "#b22222";
+                msg.textContent = "Erro ao salvar atendimento no sistema.";
+            });
+        });
+    </script>
 </body>
 </html>
