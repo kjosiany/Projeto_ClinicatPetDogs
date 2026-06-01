@@ -1,211 +1,157 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - ClinicatPetDogs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #eef2f7;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 28px;
+            color: #2c3e50;
+        }
+
+        #formLogin {
+            width: 100%;
+            max-width: 380px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #5a6c7d;
+        }
+
+        input {
+            padding: 12px 14px;
+            border: 1px solid #ccd1d9;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+            background-color: #fcfdfd;
+        }
+
+        input:focus {
+            border-color: #37698d;
+            background-color: #fff;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #37698d;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #2c5472;
+        }
+
+        #mensagem {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
 </head>
-<style>
-
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:'Segoe UI', Arial, sans-serif;
-    background:#aba1ef;
-
-    min-height:100vh;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-
-    padding-top:80px;
-}
-
-h1{
-    margin-bottom:25px;
-    font-size:32px;
-}
-
-#formPaciente{
-
-    width:100%;
-    max-width:380px;
-
-    background:rgba(255,255,255,0.10);
-
-    padding:25px;
-
-    border-radius:18px;
-
-    display:flex;
-    flex-direction:column;
-
-    gap:18px;
-}
-
-.campo{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-}
-
-label{
-    font-weight:700;
-    font-size:15px;
-}
-
-input{
-
-    padding:14px;
-
-    border:none;
-
-    border-radius:12px;
-
-    font-size:16px;
-
-    outline:none;
-}
-
-button{
-
-    margin-top:10px;
-
-    padding:16px;
-
-    border:none;
-
-    border-radius:14px;
-
-    background:#37698d;
-
-    color:white;
-
-    font-size:18px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    transition:0.2s;
-}
-
-button:hover{
-    filter:brightness(1.1);
-}
-
-
-</style>
 <body>
 
-    <h1>Login de Usuario</h1>
+    <h1>Acesso ao Sistema 🐾</h1>
 
-    <form id="formPaciente">
-
+    <form id="formLogin">
         <div class="campo">
-            <label for="nomeUser">Usuario</label>
-
-            <input
-                type="text"
-                id="nomeUser"
-                placeholder="Nome Usuario"
-                required>
+            <label for="nomeUser">Usuário</label>
+            <input type="text" id="nomeUser" placeholder="Digite seu usuário" required>
         </div>
-
-        <br>
 
         <div class="campo">
             <label for="Password">Senha</label>
-
-            <input
-                type="password"
-                id="Password"
-                placeholder="Senha"
-                required>
+            <input type="password" id="Password" placeholder="Digite sua senha" required>
         </div>
 
-        <br>
-
-        <button type="submit">
-            Acessar Sistema
-        </button>
-
-
+        <button type="submit">Acessar Sistema</button>
         <p id="mensagem"></p>
-        
     </form>
 
     <script>
+        const form = document.getElementById("formLogin");
 
-const form = document.getElementById("formPaciente");
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
 
-form.addEventListener("submit", async function(event) {
+            const nomeUser = document.getElementById("nomeUser").value;
+            const Password = document.getElementById("Password").value;
+            const msg = document.getElementById("mensagem");
 
-    event.preventDefault();
+            try {
+                // Altere para a URL completa caso seu backend rode em outra porta (ex: http://localhost:3001/login)
+                const resposta = await fetch("http://localhost:3001/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        USUARIO: nomeUser,
+                        SENHA: Password
+                    })
+                });
 
-    const nomeUser = document.getElementById("nomeUser").value;
-    const Password = document.getElementById("Password").value;
+                const dados = await resposta.json();
+                msg.textContent = dados.mensagem;
 
-    const msg = document.getElementById("mensagem");
+                if (resposta.ok) {
+                    msg.style.color = "#1f7a1f";
+                    msg.style.fontWeight = "bold";
+                } else {
+                    msg.style.color = "#b22222";
+                    msg.style.fontWeight = "bold";
+                }
 
-    try {
-
-        const resposta = await fetch("/login", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                USUARIO: nomeUser,
-                SENHA: Password
-            })
-
+            } catch (erro) {
+                console.log(erro);
+                msg.textContent = "Erro ao conectar com o servidor. 🐾";
+                msg.style.color = "#b22222";
+                msg.style.fontWeight = "bold";
+            }
         });
-
-        const dados = await resposta.json();
-
-        console.log(dados);
-
-        msg.textContent = dados.mensagem;
-
-        if (resposta.ok) {
-            msg.style.color = "green";
-        } else {
-            msg.style.color = "red";
-        }
-
-    } catch (erro) {
-
-        console.log(erro);
-
-       msg.textContent = dados.mensagem + " 🐾";
-
-if (resposta.ok) {
-
-    msg.style.color = "#1f7a1f";
-    msg.style.fontWeight = "bold";
-
-} else {
-
-    msg.style.color = "#b22222";
-    msg.style.fontWeight = "bold";
-}
-    }
-
-});
-
-</script>
-
+    </script>
 </body>
-
 </html>
