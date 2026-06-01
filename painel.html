@@ -1,180 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Pacientes - ClinicatPetDogs</title>
 
-<style>body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #aba1ef;
-    padding: 20px;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-#Painel {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 30px;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f7;
+            padding: 20px;
+            color: #333;
+            padding-top: 100px !important;
+        }
 
-#Painel h3 {
-    font-size: 26px;
-    color: #000;
-}
+        #Painel {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px;
+        }
 
-#Painel::after {
-    content: "";
-    display: block;
-    width: 100px;
-    height: 3px;
-    background-color: #37698d;
-    margin: 10px auto 0;
-    border-radius: 2px;
-}
+        #Painel h3 {
+            font-size: 28px;
+            color: #2c3e50;
+            font-weight: 700;
+        }
 
-.container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
+        #Painel::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: #37698d;
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
 
-.container > div {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 15px;
-    min-height: 400px;
-    border-top: 6px solid;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-#AgurdandoAtendi {
-    border-color: #fbc02d;
-}
+        .container > div {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 20px;
+            min-height: 500px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            border-top: 5px solid #ccd1d9;
+        }
 
-#emAtendimento {
-    border-color: #0288d1;
-}
+        .container > div:nth-child(1) { border-top-color: #f39c12; } /* Aguardando */
+        .container > div:nth-child(2) { border-top-color: #2980b9; } /* Em Atendimento */
+        .container > div:nth-child(3) { border-top-color: #8e44ad; } /* Em Observação */
+        .container > div:nth-child(4) { border-top-color: #c0392b; } /* Internação */
 
-#EmObservacao {
-    border-color: #fb8c00;
-}
+        h4 {
+            font-size: 14px;
+            color: #4a5568;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 0.5px;
+            font-weight: bold;
+        }
 
-#EmInternacao {
-    border-color: #e53935;
-}
+        .pet-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-h1 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #000;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 5px;
-}
+        .pet-card p {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #4a5568;
+        }
 
-p {
-    background: #dccefe; 
-    border-left: 4px solid #37698d;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
-    color: #000;
-}
-p:hover {
-    transform: scale(1.02);
-    transition: 0.2s;
-    cursor: pointer;
-    background: #eef2f3;
-}
-</style>
+        .pet-card strong {
+            color: #1a202c;
+            font-size: 15px;
+        }
 
+        .btn-transferir {
+            margin-top: 8px;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .btn-avancar { background-color: #2ecc71; }
+        .btn-avancar:hover { background-color: #27ae60; }
+        
+        .btn-alta { background-color: #e74c3c; }
+        .btn-alta:hover { background-color: #c0392b; }
+
+        .navbar {
+            width: 100%;
+            background-color: #37698d;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .nav-logo { color: white; font-size: 20px; font-weight: bold; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: #eef2f7; text-decoration: none; font-weight: 600; font-size: 15px; transition: color 0.2s; }
+        .nav-links a:hover { color: #a1c4fd; }
+    </style>
 </head>
 <body>
 
-    <div id= "Painel">
-    <H3>Painel de Atendimento Veterinário</H3>
+    <nav class="navbar">
+        <div class="nav-logo">ClinicatPetDogs 🐾</div>
+        <div class="nav-links">
+            <a href="http://localhost:3001/login">Login</a>
+            <a href="http://localhost:3001/cadastro">Cadastrar Paciente</a>
+            <a href="http://localhost:3001/recepcao">Nova Recepção</a>
+            <a href="http://localhost:3001/painel">Painel de Atendimentos</a>
+        </div>
+    </nav>
+
+    <div id="Painel">
+        <h3>Painel de Atendimentos 🐾</h3>
     </div>
 
     <div class="container">
-
-    
-    <div id="AgurdandoAtendi">
-    <h1>Aguardando Atendimento</h1>
-    <div id="listaaguaatend">
+        <div>
+            <h4>AGUARDANDO ATENDIMENTO</h4>
+            <div id="listaatendimento"></div>
         </div>
-</div> 
-<div id="emAtendimento">
-    <h1>Em Atendimento</h1>
-    <div id="listaatendimento">
+        
+        <div>
+            <h4>EM ATENDIMENTO</h4>
+            <div id="listaEmObs"></div>
         </div>
-</div>
-
-<div  id= "EmObservacao">
-<h1> Em Observaçao</h1>
-<div id ="listaEmObs">
-</div>
-</div>
-
-<div  id= "EmInternacao">
-<h1> Em Internaçao</h1>
-<div id ="listaInterna">
-</div>
-</div>
-
-</div>
+        
+        <div>
+            <h4>EM OBSERVAÇÃO</h4>
+            <div id="listaInterna"></div>
+        </div>
+        
+        <div>
+            <h4>EM INTERNAÇÃO</h4>
+            <div id="listaProntos"></div>
+        </div>
+    </div>
 
 <script>
-const divPendentes = document.getElementById('listaaguaatend');
-const divProntos = document.getElementById('listaatendimento');
-const divobs = document.getElementById ('listaEmObs');
-const divInterna = document.getElementById ('listaInterna')
+const divPendentes = document.getElementById('listaatendimento');
+const divObs = document.getElementById('listaEmObs');
+const divInterna = document.getElementById('listaInterna');
+const divProntos = document.getElementById('listaProntos');
+
 function carregarAtendimentos() {
+    fetch("http://localhost:3001/atendimentos", { method: "GET" })
+    .then(response => response.json())
+    .then(atendimentos => {
+        divPendentes.innerHTML = "";
+        divObs.innerHTML = "";
+        divInterna.innerHTML = "";
+        divProntos.innerHTML = "";
 
+        atendimentos.forEach(atendimento => {
+            const situacao = atendimento.SITUACAO;
+            const idAtendimento = atendimento.ID_ATENDIMENTO;
+            
+            let botaoHTML = "";
+            if (situacao === "AGUARDANDO ATENDIMENTO") {
+                botaoHTML = `<button class="btn-transferir btn-avancar" onclick="atualizarStatus(${idAtendimento}, 'EM ATENDIMENTO')">Chamar para Atendimento ➡️</button>`;
+            } else if (situacao === "EM ATENDIMENTO") {
+                botaoHTML = `
+                    <button class="btn-transferir btn-avancar" onclick="atualizarStatus(${idAtendimento}, 'EM OBSERVAÇÃO')" style="background-color: #8e44ad;">Pôr em Observação 🟣</button>
+                    <button class="btn-transferir btn-alta" onclick="atualizarStatus(${idAtendimento}, 'FINALIZADO')">Dar Alta/Finalizar ✔️</button>
+                `;
+            } else if (situacao === "EM OBSERVAÇÃO" || situacao === "EM OBSERVAÇAO") {
+                botaoHTML = `
+                    <button class="btn-transferir btn-avancar" onclick="atualizarStatus(${idAtendimento}, 'EM INTERNAÇÃO')" style="background-color: #c0392b;">Internar Pet 🏥</button>
+                    <button class="btn-transferir btn-alta" onclick="atualizarStatus(${idAtendimento}, 'FINALIZADO')">Dar Alta/Finalizar ✔️</button>
+                `;
+            } else if (situacao === "EM INTERNAÇÃO" || situacao === "EM INTERNACAO") {
+                botaoHTML = `<button class="btn-transferir btn-alta" onclick="atualizarStatus(${idAtendimento}, 'FINALIZADO')">Dar Alta (Finalizar) ✔️</button>`;
+            }
 
-fetch("http://localhost:3001/atendimentos",
-   { method: "GET"}
-)
-  .then(response => response.json())
-  .then(atendimentos => {
-    console.log(atendimentos);
+            const cardHTML = `
+                <div class="pet-card">
+                    <p>🐾 <strong>${atendimento.PACIENTE}</strong></p>
+                    <p>Espécie: ${atendimento.especie}</p>
+                    ${atendimento.VETERINARIO ? `<p>Vet: ${atendimento.VETERINARIO}</p>` : ''}
+                    ${botaoHTML}
+                </div>
+            `;
 
-divPendentes.innerHTML = "";
-divProntos.innerHTML = "";
-divobs.innerHTML = "";
-divInterna.innerHTML = "";
-
-    atendimentos.forEach(atendimento => {
-      const situacao = atendimento.SITUACAO
-      ;
-
-      if ( situacao === "AGUARDANDO ATENDIMENTO") {
-        divPendentes.innerHTML += 
-          `<p>Paciente: ${atendimento.PACIENTE} | Espécie: ${atendimento.especie}</p>`;
-
-      } else if (situacao === "EM ATENDIMENTO") {
-        divProntos.innerHTML += 
-          `<p>Paciente: ${atendimento.PACIENTE} | Espécie: ${atendimento.especie}</p>`;
-
-      } else if (situacao === "EM OBSERVAÇAO") {
-        divobs.innerHTML += 
-          `<p>Paciente: ${atendimento.PACIENTE} | Espécie: ${atendimento.especie}</p>`;
-      } else if (situacao === "EM INTERNAÇÃO") {
-        divInterna.innerHTML +=          
-        `<p>Paciente: ${atendimento.PACIENTE} | Espécie: ${atendimento.especie}</p>`;
-      }
-
-    });
-  })
-  .catch(erro => {
-    console.error("Erro ao buscar dados:", erro);
-  });
+            if (situacao === "AGUARDANDO ATENDIMENTO") {
+                divPendentes.innerHTML += cardHTML;
+            } else if (situacao === "EM ATENDIMENTO") {
+                divObs.innerHTML += cardHTML;
+            } else if (situacao === "EM OBSERVAÇAO" || situacao === "EM OBSERVAÇÃO") {
+                divInterna.innerHTML += cardHTML;
+            } else if (situacao === "EM INTERNAÇÃO" || situacao === "EM INTERNACAO") {
+                divProntos.innerHTML += cardHTML;
+            }
+        });
+    })
+    .catch(error => console.error("Erro ao carregar painel:", error));
 }
-  carregarAtendimentos();
 
+function atualizarStatus(id, novoStatus) {
+    fetch(`http://localhost:3001/atendimentos/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ SITUACAO: novoStatus })
+    })
+    .then(res => {
+        if(!res.ok) throw new Error();
+        return res.json();
+    })
+    .then(() => {
+        carregarAtendimentos();
+    })
+    .catch(err => {
+        alert("Erro ao transferir o paciente de status.");
+    });
+}
+
+carregarAtendimentos();
 setInterval(carregarAtendimentos, 5000);
-
 </script>
 
-
 </body>
+</html>
