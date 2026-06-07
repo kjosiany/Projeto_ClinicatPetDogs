@@ -3,90 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Pacientes</title>
-</head>
+    <title>Cadastro de Pacientes - ClinicatPetDogs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #eef2f7;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            padding-top: 100px !important; 
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 28px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        #formPaciente {
+            width: 100%;
+            max-width: 500px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .linha-dupla {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #5a6c7d;
+        }
+
+        input, select {
+            padding: 12px 14px;
+            border: 1px solid #ccd1d9;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #333;
+            outline: none;
+            transition: border-color 0.2s;
+            background-color: #fcfdfd;
+            width: 100%;
+        }
+
+        input:focus, select:focus {
+            border-color: #37698d;
+            background-color: #fff;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #37698d;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #2c5472;
+        }
+
+        /* 🎨 Estilos da Navbar Fixa */
+        .navbar {
+            width: 100%;
+            background-color: #37698d;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-logo {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #eef2f7;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #a1c4fd;
+        }
+    </style>
+</head>
 <body>
 
-<h1>Cadastro de Pacientes - ClinicatPetDogs</h1>
+    <nav class="navbar">
+        <div class="nav-logo">ClinicatPetDogs 🐾</div>
+        <div class="nav-links">
+            <a href="/recepcao">Novo Atendimento</a>
+            <a href="/painel">Painel de Atendimentos</a>
+        </div>
+    </nav>
 
-<form id="formPaciente">
+    <h1>Cadastro de Pacientes 🐾</h1>
 
-    <div class="campo">
-        <label for="nomePet">Nome do Pet:</label>
-        <input type="text" id="nomePet" placeholder="Nome do Pet" required>
-    </div>
+    <form id="formPaciente">
+        <div class="campo">
+            <label for="nomePet">Nome do Pet:</label>
+            <input type="text" id="nomePet" placeholder="Ex: Mel, Ozzy, Thor" required>
+        </div>
 
-    <div class="campo">
-        <label for="nomeTutor">Nome do Tutor:</label>
-        <input type="text" id="nomeTutor" placeholder="Nome do Tutor" required>
-    </div>
+        <div class="linha-dupla">
+            <div class="campo">
+                <label for="especie">Espécie:</label>
+                <input type="text" id="especie" placeholder="Ex: Cão, Gato" required>
+            </div>
 
-    <div class="campo">
-        <label for="idadePet">Idade:</label>
-        <input type="text" id="idadePet" placeholder="Ex: 5 anos">
-    </div>
+            <div class="campo">
+                <label for="raca">Raça:</label>
+                <input type="text" id="raca" placeholder="Ex: SRD, Poodle, Persa" required>
+            </div>
+        </div>
 
-    <div class="campo">
-        <label for="especie">Espécie:</label>
-        <input type="text" id="especie" placeholder="Espécie" required>
-    </div>
+        <div class="linha-dupla">
+            <div class="campo">
+                <label for="idadePet">Idade:</label>
+                <input type="text" id="idadePet" placeholder="Ex: 5 anos ou 3 meses">
+            </div>
 
-    <div class="campo">
-        <label for="sexo">Sexo:</label>
+            <div class="campo">
+                <label for="sexo">Sexo:</label>
+                <select id="sexo" required>
+                    <option value="">Selecione...</option>
+                    <option value="Femea">Fêmea</option>
+                    <option value="Macho">Macho</option>
+                    <option value="Nao_definido">Não definido</option>
+                </select>
+            </div>
+        </div>
 
-        <select id="sexo" required>
-            <option value="">Selecione...</option>
-            <option value="Femea">Fêmea</option>
-            <option value="Macho">Macho</option>
-            <option value="Nao Indefinido">Sexo não definido</option>
-        </select>
-    </div>
+        <div class="campo">
+            <label for="castrado">O animal é castrado?</label>
+            <select id="castrado" required>
+                <option value="">Selecione...</option>
+                <option value="SIM">Sim</option>
+                <option value="NAO">Não</option>
+            </select>
+        </div>
 
-    <button type="submit">Finalizar Cadastro</button>
+        <div class="campo">
+            <label for="nomeTutor">Nome do Tutor:</label>
+            <input type="text" id="nomeTutor" placeholder="Nome completo do tutor" required>
+        </div>
 
-</form>
+        <div class="campo">
+            <label for="telefone">Telefone de Contato:</label>
+            <input type="tel" id="telefone" placeholder="Ex: (34) 99999-9999" required>
+        </div>
 
+        <button type="submit">Finalizar Cadastro</button>
+    </form>
 
-<script>
+    <script>
+        const form = document.getElementById("formPaciente");
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
 
-const form = document.getElementById("formPaciente");
-form.addEventListener("submit", function(event) {
-    event.preventDefault();
+            // Mapeando exatamente as colunas estruturadas no seu back/banco
+            const dados = {
+                PACIENTE: document.getElementById("nomePet").value.trim().toUpperCase(),
+                TUTOR: document.getElementById("nomeTutor").value.trim().toUpperCase(),
+                IDADE: document.getElementById("idadePet").value.trim().toUpperCase(),
+                ESPECIE: document.getElementById("especie").value.trim().toUpperCase(),
+                SEXO: document.getElementById("sexo").value,
+                RACA: document.getElementById("raca").value.trim().toUpperCase(),
+                CASTRADO: document.getElementById("castrado").value,
+                TELEFONE: document.getElementById("telefone").value.trim()
+            };
 
-    const dados = {
-        PACIENTE: document.getElementById("nomePet").value.trim(),
-        TUTOR: document.getElementById("nomeTutor").value.trim(),
-        IDADE: document.getElementById("idadePet").value,
-        ESPECIE: document.getElementById("especie").value.trim(),
-        SEXO: document.getElementById("sexo").value
-    };
-
-    fetch("http://localhost:3001/pacientes", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(dados)
-    })
-
-    .then(response => response.json())
-    .then(() => {
-        alert("Paciente cadastrado com sucesso!🐾");
-        form.reset();
-    })
-
-    .catch(error => {
-        console.error(error);
-        alert("Erro ao cadastrar paciente.");
-
-    });
-
-});
-
-</script>
-
-
-
+            fetch("http://localhost:3001/pacientes", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dados)
+            })
+            .then(response => {
+                if(!response.ok) throw new Error();
+                return response.json();
+            })
+            .then(() => {
+                alert("Paciente cadastrado com sucesso! 🐾");
+                form.reset();
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Erro ao cadastrar paciente.");
+            });
+        });
+    </script>
 </body>
 </html>
