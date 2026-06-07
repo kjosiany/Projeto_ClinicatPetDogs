@@ -6,131 +6,160 @@
     <title>Painel de Pacientes - ClinicatPetDogs</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #eef2f7;
-            padding: 20px;
-            color: #333;
-            padding-top: 100px !important;
-        }
-
-        #Painel {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        #Painel h3 {
-            font-size: 28px;
-            color: #2c3e50;
-            font-weight: 700;
-        }
-
-        #Painel::after {
-            content: "";
-            display: block;
-            width: 80px;
-            height: 4px;
-            background-color: #37698d;
-            margin: 12px auto 0;
-            border-radius: 2px;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .container > div {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 20px;
-            min-height: 500px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-            border-top: 5px solid #ccd1d9;
-        }
-
-        .container > div:nth-child(1) { border-top-color: #f39c12; } /* Aguardando */
-        .container > div:nth-child(2) { border-top-color: #2980b9; } /* Em Atendimento */
-        .container > div:nth-child(3) { border-top-color: #8e44ad; } /* Em Observação */
-        .container > div:nth-child(4) { border-top-color: #c0392b; } /* Internação */
-
-        h4 {
-            font-size: 14px;
-            color: #4a5568;
-            margin-bottom: 20px;
-            text-align: center;
-            letter-spacing: 0.5px;
-            font-weight: bold;
-        }
-
-        .pet-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: #f1f5f9;
             padding: 15px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            color: #1e293b;
+            padding-top: 90px !important;
+        }
+
+        #Painel { width: 100%; text-align: center; margin-bottom: 25px; }
+        #Painel h3 { font-size: 24px; color: #1e293b; font-weight: 700; letter-spacing: -0.5px; }
+
+        /* Grid ajustado com frações menores e gap reduzido para caber as 5 colunas perfeitamente */
+        .kanban {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(200px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        .coluna {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border-top: 4px solid #cbd5e1;
+            min-height: 550px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
         }
 
-        .pet-card p {
-            font-size: 14px;
-            line-height: 1.4;
-            color: #4a5568;
-        }
+        /* Cores pastéis e modernas nas bordas superiores */
+        .coluna-aguardando { border-top-color: #eab308; } /* Amarelo */
+        .coluna-atendimento { border-top-color: #3b82f6; } /* Azul */
+        .coluna-exame { border-top-color: #f97316; } /* Laranja */
+        .coluna-observacao { border-top-color: #a855f7; } /* Roxo */
+        .coluna-internacao { border-top-color: #ef4444; } /* Vermelho */
 
-        .pet-card strong {
-            color: #1a202c;
-            font-size: 15px;
-        }
-
-        .btn-transferir {
-            margin-top: 8px;
-            padding: 6px 10px;
-            border: none;
-            border-radius: 6px;
+        .coluna h4 {
             font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            color: white;
-            transition: background 0.2s;
-            text-align: center;
-        }
-
-        .btn-avancar { background-color: #2ecc71; }
-        .btn-avancar:hover { background-color: #27ae60; }
-        
-        .btn-alta { background-color: #e74c3c; }
-        .btn-alta:hover { background-color: #c0392b; }
-
-        .navbar {
-            width: 100%;
-            background-color: #37698d;
-            padding: 15px 30px;
+            color: #64748b;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding-bottom: 5px;
         }
-        .nav-logo { color: white; font-size: 20px; font-weight: bold; }
-        .nav-links { display: flex; gap: 20px; }
-        .nav-links a { color: #eef2f7; text-decoration: none; font-weight: 600; font-size: 15px; transition: color 0.2s; }
+        
+        .contador { 
+            background: #f1f5f9; 
+            color: #475569; 
+            padding: 2px 8px; 
+            border-radius: 20px; 
+            font-size: 11px; 
+            border: 1px solid #e2e8f0;
+        }
+        
+        .cards-container { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            flex-grow: 1;
+        }
+        
+        /* DESIGN CLEAN DOS CARDS (Sem fundo azul berrante) */
+        .card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .card:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+        
+        .card h5 { 
+            font-size: 14px; 
+            color: #0f172a; 
+            font-weight: 700; 
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .card p { 
+            font-size: 12px; 
+            color: #475569; 
+            line-height: 1.4;
+        }
+
+        /* Badges Minimalistas */
+        .badge-especie {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 1px solid #e2e8f0;
+        }
+
+        .sinais-vitais {
+            background: #f8fafc;
+            padding: 6px;
+            border-radius: 6px;
+            font-size: 11px !important;
+            color: #334155 !important;
+            border: 1px dashed #e2e8f0;
+        }
+        
+        /* Botão Elegante */
+        .btn-atender {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background-color: #37698d;
+            color: white;
+            padding: 7px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 4px;
+            transition: background 0.2s;
+        }
+        .btn-atender:hover { background-color: #2c5472; }
+
+        /* Navbar Fixa */
+        .navbar {
+            width: 100%; background-color: #37698d; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; left: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .nav-logo { color: white; font-size: 18px; font-weight: bold; }
+        .nav-links { display: flex; gap: 15px; }
+        .nav-links a { color: #eef2f7; text-decoration: none; font-weight: 600; font-size: 13px; transition: color 0.2s; }
         .nav-links a:hover { color: #a1c4fd; }
     </style>
 </head>
@@ -139,121 +168,113 @@
     <nav class="navbar">
         <div class="nav-logo">ClinicatPetDogs 🐾</div>
         <div class="nav-links">
-            <a href="http://localhost:3001/login">Login</a>
-            <a href="http://localhost:3001/cadastro">Cadastrar Paciente</a>
-            <a href="http://localhost:3001/recepcao">Nova Recepção</a>
-            <a href="http://localhost:3001/painel">Painel de Atendimentos</a>
+            <a href="/cadastro">Cadastrar Paciente</a>
+            <a href="/recepcao">Nova Recepção</a>
+            <a href="/painel">Painel de Atendimentos</a>
         </div>
     </nav>
 
     <div id="Painel">
-        <h3>Painel de Atendimentos 🐾</h3>
+        <h3>Painel ao Vivo de Monitoramento Clínico 📊</h3>
     </div>
 
-    <div class="container">
-        <div>
-            <h4>AGUARDANDO ATENDIMENTO</h4>
-            <div id="listaatendimento"></div>
+    <div class="kanban">
+        <div class="coluna coluna-aguardando">
+            <h4>Aguardando <span class="contador" id="countAguardando">0</span></h4>
+            <div class="cards-container" id="aguardandoAtendimento"></div>
         </div>
-        
-        <div>
-            <h4>EM ATENDIMENTO</h4>
-            <div id="listaEmObs"></div>
+
+        <div class="coluna coluna-atendimento">
+            <h4>Em Atendimento <span class="contador" id="countAtendimento">0</span></h4>
+            <div class="cards-container" id="emAtendimento"></div>
         </div>
-        
-        <div>
-            <h4>EM OBSERVAÇÃO</h4>
-            <div id="listaInterna"></div>
+
+        <div class="coluna coluna-exame">
+            <h4>Aguardando Exame 🧪 <span class="contador" id="countExame">0</span></h4>
+            <div class="cards-container" id="aguardandoExame"></div>
         </div>
-        
-        <div>
-            <h4>EM INTERNAÇÃO</h4>
-            <div id="listaProntos"></div>
+
+        <div class="coluna coluna-observacao">
+            <h4>Em Observação <span class="contador" id="countObservacao">0</span></h4>
+            <div class="cards-container" id="emObservacao"></div>
+        </div>
+
+        <div class="coluna coluna-internacao">
+            <h4>Internação 🏥 <span class="contador" id="countInternacao">0</span></h4>
+            <div class="cards-container" id="emInternacao"></div>
         </div>
     </div>
 
-<script>
-const divPendentes = document.getElementById('listaatendimento');
-const divObs = document.getElementById('listaEmObs');
-const divInterna = document.getElementById('listaInterna');
-const divProntos = document.getElementById('listaProntos');
-
-function carregarAtendimentos() {
-    fetch("http://localhost:3001/atendimentos", { method: "GET" })
-    .then(response => response.json())
-    .then(atendimentos => {
-        divPendentes.innerHTML = "";
-        divObs.innerHTML = "";
-        divInterna.innerHTML = "";
-        divProntos.innerHTML = "";
-
-        atendimentos.forEach(atendimento => {
-            const situacao = atendimento.SITUACAO;
-            const idAtendimento = atendimento.ID_ATENDIMENTO;
-            
-            let botaoHTML = "";
-            if (situacao === "AGUARDANDO ATENDIMENTO") {
-                botaoHTML = `<button class="btn-transferir btn-avancar" onclick="atualizarStatus(${idAtendimento}, 'EM ATENDIMENTO')">Chamar para Atendimento ➡️</button>`;
-            } else if (situacao === "EM ATENDIMENTO") {
-                botaoHTML = `
-                    <button class="btn-transferir btn-avancar" onclick="atualizarStatus(${idAtendimento}, 'EM OBSERVAÇÃO')" style="background-color: #8e44ad;">Pôr em Observação 🟣</button>
-                    <button class="btn-transferir btn-alta" onclick="atualizarStatus(${idAtendimento}, 'FINALIZADO')">Dar Alta/Finalizar ✔️</button>
-                `;
-            } else if (situacao === "EM OBSERVAÇÃO" || situacao === "EM OBSERVAÇAO") {
-                botaoHTML = `
-                    <button class="btn-transferir btn-avancar" onclick="atualizarStatus(${idAtendimento}, 'EM INTERNAÇÃO')" style="background-color: #c0392b;">Internar Pet 🏥</button>
-                    <button class="btn-transferir btn-alta" onclick="atualizarStatus(${idAtendimento}, 'FINALIZADO')">Dar Alta/Finalizar ✔️</button>
-                `;
-            } else if (situacao === "EM INTERNAÇÃO" || situacao === "EM INTERNACAO") {
-                botaoHTML = `<button class="btn-transferir btn-alta" onclick="atualizarStatus(${idAtendimento}, 'FINALIZADO')">Dar Alta (Finalizar) ✔️</button>`;
-            }
-
-            const cardHTML = `
-                <div class="pet-card">
-                    <p>🐾 <strong>${atendimento.PACIENTE}</strong></p>
-                    <p>Espécie: ${atendimento.especie}</p>
-                    ${atendimento.VETERINARIO ? `<p>Vet: ${atendimento.VETERINARIO}</p>` : ''}
-                    ${botaoHTML}
-                </div>
-            `;
-
-            if (situacao === "AGUARDANDO ATENDIMENTO") {
-                divPendentes.innerHTML += cardHTML;
-            } else if (situacao === "EM ATENDIMENTO") {
-                divObs.innerHTML += cardHTML;
-            } else if (situacao === "EM OBSERVAÇAO" || situacao === "EM OBSERVAÇÃO") {
-                divInterna.innerHTML += cardHTML;
-            } else if (situacao === "EM INTERNAÇÃO" || situacao === "EM INTERNACAO") {
-                divProntos.innerHTML += cardHTML;
-            }
-        });
-    })
-    .catch(error => console.error("Erro ao carregar painel:", error));
-}
-
-function atualizarStatus(id, novoStatus) {
-    fetch(`http://localhost:3001/atendimentos/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ SITUACAO: novoStatus })
-    })
-    .then(res => {
-        if(!res.ok) throw new Error();
-        return res.json();
-    })
-    .then(() => {
+    <script>
         carregarAtendimentos();
-    })
-    .catch(err => {
-        alert("Erro ao transferir o paciente de status.");
-    });
-}
+        setInterval(carregarAtendimentos, 4000); 
 
-carregarAtendimentos();
-setInterval(carregarAtendimentos, 5000);
-</script>
+        function carregarAtendimentos() {
+            fetch("http://localhost:3001/atendimentos")
+            .then(response => response.json())
+            .then(atendimentos => {
+                const divAguardando = document.getElementById("aguardandoAtendimento");
+                const divAtendimento = document.getElementById("emAtendimento");
+                const divExame = document.getElementById("aguardandoExame");
+                const divObs = document.getElementById("emObservacao");
+                const divInterna = document.getElementById("emInternacao");
 
+                divAguardando.innerHTML = "";
+                divAtendimento.innerHTML = "";
+                divExame.innerHTML = "";
+                divObs.innerHTML = "";
+                divInterna.innerHTML = "";
+
+                let cAguardando = 0, cAtendimento = 0, cExame = 0, cObs = 0, cInterna = 0;
+
+                atendimentos.forEach(at => {
+                    const situacao = at.SITUACAO ? at.SITUACAO.trim().toUpperCase() : "";
+                    if (situacao === "FINALIZADO") return;
+
+                    const idAtendimento = at.ID_ATENDIMENTO;
+                    const nomePet = at.PACIENTE || "Sem Nome";
+                    const especie = at.especie || "Não informada";
+                    const veterinario = at.VETERINARIO || "Não designado";
+                    const sintomas = at.SINTOMAS || "Não relatados";
+                    const peso = at.PESO ? `${at.PESO} kg` : "---";
+                    const temp = at.TEMPERATURA ? `${at.TEMPERATURA} °C` : "---";
+
+                    const cardHTML = `
+                        <div class="card">
+                            <h5>🐾 ${nomePet} <span class="badge-especie">${especie}</span></h5>
+                            <p class="sinais-vitais">⚖️ <strong>${peso}</strong> | 🌡️ <strong>${temp}</strong></p>
+                            <p style="color: #64748b;"><strong>Sintomas:</strong> ${sintomas.substring(0, 45)}${sintomas.length > 45 ? '...' : ''}</p>
+                            <p style="font-size: 11px; margin-top: 2px;"><strong>Vet:</strong> 👨‍⚕️ ${veterinario}</p>
+                            <a href="/atendimento_medico.html?id=${idAtendimento}" class="btn-atender">Ver Prontuário 🩺</a>
+                        </div>
+                    `;
+
+                    if (situacao === "AGUARDANDO ATENDIMENTO") {
+                        divAguardando.innerHTML += cardHTML;
+                        cAguardando++;
+                    } else if (situacao === "EM ATENDIMENTO") {
+                        divAtendimento.innerHTML += cardHTML;
+                        cAtendimento++;
+                    } else if (situacao === "AGUARDANDO EXAME" || situacao === "AGUARDANDO EXAMES") {
+                        divExame.innerHTML += cardHTML;
+                        cExame++;
+                    } else if (situacao === "EM OBSERVAÇÃO" || situacao === "EM OBSERVAÇAO") {
+                        divObs.innerHTML += cardHTML;
+                        cObs++;
+                    } else if (situacao === "EM INTERNAÇÃO" || situacao === "EM INTERNACAO") {
+                        divInterna.innerHTML += cardHTML;
+                        cInterna++;
+                    }
+                });
+
+                document.getElementById("countAguardando").textContent = cAguardando;
+                document.getElementById("countAtendimento").textContent = cAtendimento;
+                document.getElementById("countExame").textContent = cExame;
+                document.getElementById("countObservacao").textContent = cObs;
+                document.getElementById("countInternacao").textContent = cInterna;
+            })
+            .catch(error => console.error("Erro ao carregar o painel Kanban:", error));
+        }
+    </script>
 </body>
 </html>
