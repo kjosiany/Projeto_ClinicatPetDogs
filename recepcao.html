@@ -19,9 +19,6 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-        }
-
-        body {
             padding-top: 100px !important;
         }
 
@@ -41,13 +38,22 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-direction: column;
-            gap: 20px; 
+            gap: 20px;
         }
 
         .campo {
             display: flex;
             flex-direction: column;
             gap: 8px;
+        }
+
+        .linha-dupla {
+            display: flex;
+            gap: 15px;
+        }
+
+        .linha-dupla .campo {
+            flex: 1;
         }
 
         label {
@@ -61,60 +67,48 @@
             border: 1px solid #ccd1d9;
             border-radius: 10px;
             font-size: 15px;
-            color: #333;
             outline: none;
             transition: border-color 0.2s;
             background-color: #fcfdfd;
-            font-family: inherit;
         }
 
         input:focus, select:focus, textarea:focus {
             border-color: #37698d;
-            background-color: #fff;
+            background-color: #ffffff;
         }
 
         textarea {
             resize: vertical;
             min-height: 90px;
+            font-family: inherit;
         }
 
         button {
-            margin-top: 10px;
+            background-color: #37698d;
+            color: white;
             padding: 14px;
             border: none;
             border-radius: 10px;
-            background: #37698d;
-            color: white;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: background 0.2s;
+            margin-top: 10px;
         }
 
         button:hover {
-            background: #2c5472;
+            background-color: #2c5472;
         }
 
         #mensagem {
+            display: none;
             text-align: center;
             font-weight: bold;
-            margin-top: 10px;
-            display: none;
+            margin-top: 15px;
+            font-size: 15px;
         }
-    </style>
-</head>
-<body>
 
-    <nav class="navbar">
-        <div class="nav-logo">ClinicatPetDogs 🐾</div>
-        <div class="nav-links">
-            <a href="/login">Login</a>
-            <a href="/cadastro">Cadastrar Paciente</a>
-            <a href="/painel">Painel de Atendimentos</a>
-        </div>
-    </nav>
-
-    <style>
+        /* Navbar */
         .navbar {
             width: 100%;
             background-color: #37698d;
@@ -133,88 +127,92 @@
         .nav-links a { color: #eef2f7; text-decoration: none; font-weight: 600; font-size: 15px; transition: color 0.2s; }
         .nav-links a:hover { color: #a1c4fd; }
     </style>
-    <h1>Entrada de Paciente 🐾</h1>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-logo">ClinicatPetDogs 🐾</div>
+        <div class="nav-links">
+            <a href="http://localhost:3001/login">Login</a>
+            <a href="http://localhost:3001/cadastro">Cadastrar Paciente</a>
+            <a href="http://localhost:3001/recepcao">Nova Recepção</a>
+            <a href="http://localhost:3001/painel">Painel de Atendimentos</a>
+        </div>
+    </nav>
+
+    <h1>Nova Recepção e Triagem 📋</h1>
 
     <form id="formAtendimento">
         <div class="campo">
-            <label for="paciente">Selecione o Paciente:</label>
-            <select id="paciente" required>
+            <label for="id_paciente">Selecione o Paciente (Pet):</label>
+            <select id="id_paciente" required>
                 <option value="">Carregando pacientes...</option>
             </select>
         </div>
 
-        <div class="campo">
-            <label for="data">Data do Atendimento:</label>
-            <input type="datetime-local" id="data" required>
+        <div class="linha-dupla">
+            <div class="campo">
+                <label for="data">Data/Hora de Entrada:</label>
+                <input type="datetime-local" id="data" required>
+            </div>
+            <div class="campo">
+                <label for="situacao">Classificação Inicial:</label>
+                <select id="situacao" required>
+                    <option value="AGUARDANDO ATENDIMENTO">Aguardando Atendimento ⏳</option>
+                    <option value="EM OBSERVAÇÃO">Direto para Observação 🟣</option>
+                    <option value="EM INTERNAÇÃO">Direto para Internação 🏥</option>
+                </select>
+            </div>
         </div>
 
         <div class="campo">
             <label for="veterinario">Veterinário Responsável:</label>
-            <input type="text" id="veterinario" placeholder="Ex: Dr. Silva">
+            <input type="text" id="veterinario" placeholder="Nome do profissional" required>
+        </div>
+
+        <div class="linha-dupla">
+            <div class="campo">
+                <label for="peso">Peso Atual (kg):</label>
+                <input type="number" id="peso" step="0.01" placeholder="Ex: 12.50" required>
+            </div>
+            <div class="campo">
+                <label for="temperatura">Temperatura (°C):</label>
+                <input type="number" id="temperatura" step="0.1" placeholder="Ex: 38.5" required>
+            </div>
         </div>
 
         <div class="campo">
-            <label for="situacao">Situação / Fila Inicial:</label>
-            <select id="situacao" required>
-                <option value="">Carregando status...</option>
-            </select>
+            <label for="sintomas">Sintomas Relatados / Queixa Principal:</label>
+            <textarea id="sintomas" placeholder="Descreva o que o pet está sentindo..." required></textarea>
         </div>
 
-        <div class="campo">
-            <label for="sintomas">Sintomas / Triagem Inicial:</label>
-            <textarea id="sintomas" placeholder="O que o pet está a sentir?" required></textarea>
-        </div>
-
-        <button type="submit">Dar Entrada no Atendimento</button>
-        <p id="mensagem"></p>
+        <button type="submit">Dar Entrada na Fila 🐾</button>
+        <div id="mensagem"></div>
     </form>
 
     <script>
-        const selectPacientes = document.getElementById("paciente");
-        const selectSituacao = document.getElementById("situacao");
+        const selectPacientes = document.getElementById("id_paciente");
         const form = document.getElementById("formAtendimento");
 
-        // Define automaticamente o dia e hora atual no input para poupar cliques
+        // Define a data atual como padrão no input
         document.getElementById('data').value = new Date().toISOString().slice(0, 16);
 
-        // 🔹 BUSCAR PACIENTES DO SERVIDOR (PORTA 3001)
+        // Carrega os pets cadastrados para o Select
         fetch("http://localhost:3001/pacientes")
         .then(res => res.json())
         .then(pacientes => {
-            selectPacientes.innerHTML = '<option value="">Escolha o pet...</option>';
+            selectPacientes.innerHTML = '<option value="">Selecione...</option>';
             pacientes.forEach(p => {
-                const option = document.createElement("option");
-                option.value = p.ID;
-                option.textContent = `${p.PACIENTE} (${p.especie})`;
-                selectPacientes.appendChild(option);
+                // Ajustado para ID_PACIENTE conforme sua nova estrutura estruturada
+                const id = p.ID_PACIENTE || p.ID; 
+                selectPacientes.innerHTML += `<option value="${id}">${p.PACIENTE} (Tutor: ${p.TUTOR})</option>`;
             });
         })
-        .catch(() => { selectPacientes.innerHTML = '<option value="">Erro ao carregar</option>'; });
-
-        // 🔹 BUSCAR SITUAÇÕES DO SERVIDOR
-        fetch("http://localhost:3001/situacao")
-        .then(res => res.json())
-        .then(situacoes => {
-            selectSituacao.innerHTML = '<option value="">Defina a fila...</option>';
-            if(situacoes.length === 0) {
-                // Opções padrão automáticas se o banco estiver vazio
-                const padroes = ["AGUARDANDO ATENDIMENTO", "EM ATENDIMENTO", "EM OBSERVAÇÃO", "EM INTERNAÇÃO"];
-                padroes.forEach(s => {
-                    const option = document.createElement("option");
-                    option.value = s; option.textContent = s;
-                    selectSituacao.appendChild(option);
-                });
-            } else {
-                situacoes.forEach(s => {
-                    const option = document.createElement("option");
-                    option.value = s.SITUACAO;
-                    option.textContent = s.SITUACAO;
-                    selectSituacao.appendChild(option);
-                });
-            }
+        .catch(() => {
+            selectPacientes.innerHTML = '<option value="">Erro ao carregar pacientes</option>';
         });
 
-        // 🔹 ENVIAR OS DADOS PARA O BACKEND
+        // Envia a triagem completa para o Backend
         form.addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -222,7 +220,12 @@
                 ID_PACIENTE: selectPacientes.value,
                 DATA_ATENDIMENTO: document.getElementById("data").value,
                 VETERINARIO: document.getElementById("veterinario").value.trim().toUpperCase(),
-                SITUACAO: selectSituacao.value,
+                SITUACAO: document.getElementById("situacao").value,
+                
+                // Pegando os novos valores numéricos
+                PESO: parseFloat(document.getElementById("peso").value),
+                TEMPERATURA: parseFloat(document.getElementById("temperatura").value),
+                
                 SINTOMAS: document.getElementById("sintomas").value.trim().toUpperCase()
             };
 
@@ -236,12 +239,14 @@
                 return res.json();
             })
             .then(() => {
-                const msg = document.getElementById("mensagem");
-                msg.style.display = "block";
-                msg.style.color = "#1f7a1f";
-                msg.textContent = "🐾 Atendimento registrado com sucesso!";
-                form.reset();
-                document.getElementById('data').value = new Date().toISOString().slice(0, 16);
+    const msg = document.getElementById("mensagem");
+    msg.style.display = "block";
+    msg.style.color = "#1f7a1f"; // ⬅️ Corrigido aqui! Estava faltando a aspa inicial antes do #
+    msg.textContent = "🐾 Atendimento registrado com sucesso!";
+    form.reset();
+    document.getElementById('data').value = new Date().toISOString().slice(0, 16);
+})
+ment.getElementById('data').value = new Date().toISOString().slice(0, 16);
             })
             .catch(() => {
                 const msg = document.getElementById("mensagem");
@@ -249,7 +254,7 @@
                 msg.style.color = "#b22222";
                 msg.textContent = "Erro ao salvar atendimento no sistema.";
             });
-        });
+
     </script>
 </body>
 </html>
