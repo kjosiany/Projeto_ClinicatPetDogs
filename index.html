@@ -3,278 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Pacientes - ClinicatPetDogs</title>
-
+    <title>Menu Principal - ClinicatPetDogs</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            background-color: #f1f5f9;
-            padding: 15px;
-            color: #1e293b;
-            padding-top: 90px !important;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #eef2f7;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        #Painel { width: 100%; text-align: center; margin-bottom: 25px; }
-        #Painel h3 { font-size: 24px; color: #1e293b; font-weight: 700; letter-spacing: -0.5px; }
-
-        /* Grid ajustado com frações menores e gap reduzido para caber as 5 colunas perfeitamente */
-        .kanban {
-            display: grid;
-            grid-template-columns: repeat(5, minmax(200px, 1fr));
-            gap: 12px;
+        .container-menu {
             width: 100%;
-            max-width: 100%;
-            margin: 0 auto;
-            align-items: start;
-        }
-
-        .coluna {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            border-top: 4px solid #cbd5e1;
-            min-height: 550px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Cores pastéis e modernas nas bordas superiores */
-        .coluna-aguardando { border-top-color: #eab308; } /* Amarelo */
-        .coluna-atendimento { border-top-color: #3b82f6; } /* Azul */
-        .coluna-exame { border-top-color: #f97316; } /* Laranja */
-        .coluna-observacao { border-top-color: #a855f7; } /* Roxo */
-        .coluna-internacao { border-top-color: #ef4444; } /* Vermelho */
-
-        .coluna h4 {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 5px;
-        }
-        
-        .contador { 
-            background: #f1f5f9; 
-            color: #475569; 
-            padding: 2px 8px; 
-            border-radius: 20px; 
-            font-size: 11px; 
-            border: 1px solid #e2e8f0;
-        }
-        
-        .cards-container { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 10px; 
-            flex-grow: 1;
-        }
-        
-        /* DESIGN CLEAN DOS CARDS (Sem fundo azul berrante) */
-        .card {
+            max-width: 900px;
             background: #ffffff;
-            border-radius: 8px;
-            padding: 12px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-            transition: all 0.2s ease;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .subtitulo {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .card-menu {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-        }
-        
-        .card:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border-color: #cbd5e1;
-        }
-        
-        .card h5 { 
-            font-size: 14px; 
-            color: #0f172a; 
-            font-weight: 700; 
-            display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 15px;
         }
-        
-        .card p { 
-            font-size: 12px; 
-            color: #475569; 
+
+        .card-menu:hover {
+            transform: translateY(-5px);
+            border-color: #37698d;
+            box-shadow: 0 12px 20px rgba(55, 105, 141, 0.1);
+            background: #ffffff;
+        }
+
+        .icone {
+            font-size: 45px;
+        }
+
+        .card-menu h3 {
+            font-size: 20px;
+            color: #2c3e50;
+        }
+
+        .card-menu p {
+            font-size: 14px;
+            color: #64748b;
             line-height: 1.4;
         }
 
-        /* Badges Minimalistas */
-        .badge-especie {
-            display: inline-block;
-            background: #f1f5f9;
-            color: #64748b;
-            padding: 1px 5px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border: 1px solid #e2e8f0;
-        }
+        /* Cores temáticas discretas para as bordas do hover */
+        .card-recepcao:hover { border-color: #2ecc71; }
+        .card-painel:hover { border-color: #3498db; }
+        .card-cadastro:hover { border-color: #9b59b6; }
+        .card-laboratorio:hover { border-color: #e67e22; }
 
-        .sinais-vitais {
-            background: #f8fafc;
-            padding: 6px;
-            border-radius: 6px;
-            font-size: 11px !important;
-            color: #334155 !important;
-            border: 1px dashed #e2e8f0;
-        }
-        
-        /* Botão Elegante */
-        .btn-atender {
-            display: block;
-            width: 100%;
-            text-align: center;
-            background-color: #37698d;
+        .btn-logout {
+            margin-top: 40px;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e74c3c;
             color: white;
-            padding: 7px;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
             text-decoration: none;
-            margin-top: 4px;
+            font-weight: bold;
+            border-radius: 8px;
             transition: background 0.2s;
         }
-        .btn-atender:hover { background-color: #2c5472; }
 
-        /* Navbar Fixa */
-        .navbar {
-            width: 100%; background-color: #37698d; padding: 12px 24px;
-            display: flex; justify-content: space-between; align-items: center;
-            position: fixed; top: 0; left: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        .btn-logout:hover {
+            background-color: #c0392b;
         }
-        .nav-logo { color: white; font-size: 18px; font-weight: bold; }
-        .nav-links { display: flex; gap: 15px; }
-        .nav-links a { color: #eef2f7; text-decoration: none; font-weight: 600; font-size: 13px; transition: color 0.2s; }
-        .nav-links a:hover { color: #a1c4fd; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-logo">ClinicatPetDogs 🐾</div>
-        <div class="nav-links">
-            <a href="/cadastro">Cadastrar Paciente</a>
-            <a href="/recepcao">Nova Recepção</a>
-            <a href="/painel">Painel de Atendimentos</a>
-        </div>
-    </nav>
+    <div class="container-menu">
+        <h1>Sistema ClinicatPetDogs 🐾</h1>
+        <p class="subtitulo">Seja bem-vindo ao painel operacional. Escolha o módulo que deseja acessar:</p>
 
-    <div id="Painel">
-        <h3>Painel ao Vivo de Monitoramento Clínico 📊</h3>
+        <div class="grid-menu">
+            <a href="/recepcao.html" class="card-menu card-recepcao">
+                <div class="icone"></div>
+                <h3>Recepção & Triagem</h3>
+                <p>Dar entrada em novos atendimentos, registrar peso, temperatura e sintomas iniciais.</p>
+            </a>
+
+            <a href="/painel.html" class="card-menu card-painel">
+                <div class="icone"></div>
+                <h3>Painel de Pacientes</h3>
+                <p>Visualizar o fluxo da clínica em tempo real (Kanban) e acessar prontuários médicos.</p>
+            </a>
+
+            <a href="/cadastroPacientes.html" class="card-menu card-cadastro">
+                <div class="icone"></div>
+                <h3>Cadastrar Pet</h3>
+                <p>Inserir novos animais e seus respectivos responsáveis no banco de dados.</p>
+            </a>
+
+            <a href="/laboratorio.html" class="card-menu card-laboratorio">
+                <div class="icone"></div>
+                <h3>Laboratório</h3>
+                <p>Fila de exames solicitados pelos veterinários para inserção de laudos e resultados.</p>
+            </a>
+        </div>
+
+        <a href="/login.html" class="btn-logout">Sair do Sistema </a>
     </div>
 
-    <div class="kanban">
-        <div class="coluna coluna-aguardando">
-            <h4>Aguardando <span class="contador" id="countAguardando">0</span></h4>
-            <div class="cards-container" id="aguardandoAtendimento"></div>
-        </div>
-
-        <div class="coluna coluna-atendimento">
-            <h4>Em Atendimento <span class="contador" id="countAtendimento">0</span></h4>
-            <div class="cards-container" id="emAtendimento"></div>
-        </div>
-
-        <div class="coluna coluna-exame">
-            <h4>Aguardando Exame 🧪 <span class="contador" id="countExame">0</span></h4>
-            <div class="cards-container" id="aguardandoExame"></div>
-        </div>
-
-        <div class="coluna coluna-observacao">
-            <h4>Em Observação <span class="contador" id="countObservacao">0</span></h4>
-            <div class="cards-container" id="emObservacao"></div>
-        </div>
-
-        <div class="coluna coluna-internacao">
-            <h4>Internação 🏥 <span class="contador" id="countInternacao">0</span></h4>
-            <div class="cards-container" id="emInternacao"></div>
-        </div>
-    </div>
-
-    <script>
-        carregarAtendimentos();
-        setInterval(carregarAtendimentos, 4000); 
-
-        function carregarAtendimentos() {
-            fetch("http://localhost:3001/atendimentos")
-            .then(response => response.json())
-            .then(atendimentos => {
-                const divAguardando = document.getElementById("aguardandoAtendimento");
-                const divAtendimento = document.getElementById("emAtendimento");
-                const divExame = document.getElementById("aguardandoExame");
-                const divObs = document.getElementById("emObservacao");
-                const divInterna = document.getElementById("emInternacao");
-
-                divAguardando.innerHTML = "";
-                divAtendimento.innerHTML = "";
-                divExame.innerHTML = "";
-                divObs.innerHTML = "";
-                divInterna.innerHTML = "";
-
-                let cAguardando = 0, cAtendimento = 0, cExame = 0, cObs = 0, cInterna = 0;
-
-                atendimentos.forEach(at => {
-                    const situacao = at.SITUACAO ? at.SITUACAO.trim().toUpperCase() : "";
-                    if (situacao === "FINALIZADO") return;
-
-                    const idAtendimento = at.ID_ATENDIMENTO;
-                    const nomePet = at.PACIENTE || "Sem Nome";
-                    const especie = at.especie || "Não informada";
-                    const veterinario = at.VETERINARIO || "Não designado";
-                    const sintomas = at.SINTOMAS || "Não relatados";
-                    const peso = at.PESO ? `${at.PESO} kg` : "---";
-                    const temp = at.TEMPERATURA ? `${at.TEMPERATURA} °C` : "---";
-
-                    const cardHTML = `
-                        <div class="card">
-                            <h5>🐾 ${nomePet} <span class="badge-especie">${especie}</span></h5>
-                            <p class="sinais-vitais">⚖️ <strong>${peso}</strong> | 🌡️ <strong>${temp}</strong></p>
-                            <p style="color: #64748b;"><strong>Sintomas:</strong> ${sintomas.substring(0, 45)}${sintomas.length > 45 ? '...' : ''}</p>
-                            <p style="font-size: 11px; margin-top: 2px;"><strong>Vet:</strong> 👨‍⚕️ ${veterinario}</p>
-                            <a href="/atendimento_medico.html?id=${idAtendimento}" class="btn-atender">Ver Prontuário 🩺</a>
-                        </div>
-                    `;
-
-                    if (situacao === "AGUARDANDO ATENDIMENTO") {
-                        divAguardando.innerHTML += cardHTML;
-                        cAguardando++;
-                    } else if (situacao === "EM ATENDIMENTO") {
-                        divAtendimento.innerHTML += cardHTML;
-                        cAtendimento++;
-                    } else if (situacao === "AGUARDANDO EXAME" || situacao === "AGUARDANDO EXAMES") {
-                        divExame.innerHTML += cardHTML;
-                        cExame++;
-                    } else if (situacao === "EM OBSERVAÇÃO" || situacao === "EM OBSERVAÇAO") {
-                        divObs.innerHTML += cardHTML;
-                        cObs++;
-                    } else if (situacao === "EM INTERNAÇÃO" || situacao === "EM INTERNACAO") {
-                        divInterna.innerHTML += cardHTML;
-                        cInterna++;
-                    }
-                });
-
-                document.getElementById("countAguardando").textContent = cAguardando;
-                document.getElementById("countAtendimento").textContent = cAtendimento;
-                document.getElementById("countExame").textContent = cExame;
-                document.getElementById("countObservacao").textContent = cObs;
-                document.getElementById("countInternacao").textContent = cInterna;
-            })
-            .catch(error => console.error("Erro ao carregar o painel Kanban:", error));
-        }
-    </script>
 </body>
 </html>
