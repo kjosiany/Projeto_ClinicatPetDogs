@@ -3,135 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Pacientes - ClinicatPetDogs</title>
+    <title>Consulta Clínica - ClinicatPetDogs</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
             background: #eef2f7;
             color: #333;
             min-height: 100vh;
+            padding: 20px;
+            padding-top: 100px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
-            padding-top: 100px !important; 
         }
-
-        h1 {
-            margin-bottom: 25px;
-            font-size: 28px;
-            color: #2c3e50;
-            text-align: center;
-        }
-
-        #formPaciente {
+        .container-atendimento {
             width: 100%;
-            max-width: 500px;
+            max-width: 700px;
             background: #ffffff;
             padding: 30px;
             border-radius: 16px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
+            margin-bottom: 30px;
         }
-
-        .linha-dupla {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
+        h1 { font-size: 24px; color: #2c3e50; margin-bottom: 10px; }
+        h2 { font-size: 18px; color: #2c3e50; margin-top: 10px; border-bottom: 2px solid #eef2f7; padding-bottom: 8px; }
+        
+        .info-triagem {
+            background-color: #f8fafc;
+            border-left: 4px solid #37698d;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 15px;
         }
-
-        .campo {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #5a6c7d;
-        }
-
-        input, select {
+        .info-triagem p { margin-bottom: 8px; }
+        .campo { display: flex; flex-direction: column; gap: 8px; }
+        .campo-horizontal { display: flex; gap: 10px; align-items: flex-end; }
+        .campo-horizontal input { flex: 1; }
+        
+        label { font-weight: 600; font-size: 14px; color: #5a6c7d; }
+        input, textarea, select {
             padding: 12px 14px;
             border: 1px solid #ccd1d9;
             border-radius: 10px;
             font-size: 15px;
-            color: #333;
             outline: none;
             transition: border-color 0.2s;
             background-color: #fcfdfd;
-            width: 100%;
+            font-family: inherit;
         }
-
-        input:focus, select:focus {
-            border-color: #37698d;
-            background-color: #fff;
-        }
-
+        input:focus, textarea:focus, select:focus { border-color: #37698d; background-color: #fff; }
+        textarea { resize: vertical; min-height: 100px; }
+        
+        .botoes { display: flex; gap: 15px; margin-top: 10px; }
         button {
-            margin-top: 10px;
-            padding: 14px;
+            padding: 12px 20px;
             border: none;
             border-radius: 10px;
-            background: #37698d;
-            color: white;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
             transition: background 0.2s;
-        }
-
-        button:hover {
-            background: #2c5472;
-        }
-
-        /* 🎨 Estilos da Navbar Fixa */
-        .navbar {
-            width: 100%;
-            background-color: #37698d;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-logo {
             color: white;
-            font-size: 20px;
-            font-weight: bold;
         }
+        .btn-salvar { background: #2ecc71; flex: 1; padding: 14px; font-size: 16px; }
+        .btn-salvar:hover { background: #27ae60; }
+        .btn-voltar { background: #95a5a6; flex: 1; padding: 14px; font-size: 16px; }
+        .btn-voltar:hover { background: #7f8c8d; }
+        .btn-acao { background: #37698d; height: 46px; }
+        .btn-acao:hover { background: #2c5472; }
 
-        .nav-links {
+        .lista-exames { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .item-exame {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 12px 15px;
+            border-radius: 8px;
             display: flex;
-            gap: 20px;
+            flex-direction: column;
+            gap: 5px;
         }
+        .item-exame .topo { display: flex; justify-content: space-between; font-weight: bold; }
+        .status-solicitado { color: #d35400; background: #fdebd0; padding: 2px 8px; border-radius: 20px; font-size: 12px; }
+        .status-pronto { color: #27ae60; background: #d4efdf; padding: 2px 8px; border-radius: 20px; font-size: 12px; }
+        .laudo-texto { font-style: italic; color: #555; background: #fff; padding: 8px; border-radius: 6px; border: 1px dashed #cbd5e1; margin-top: 5px; font-size: 14px; }
 
-        .nav-links a {
-            color: #eef2f7;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 15px;
-            transition: color 0.2s;
+        .navbar {
+            width: 100%; background-color: #37698d; padding: 15px 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; left: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-
-        .nav-links a:hover {
-            color: #a1c4fd;
-        }
+        .nav-logo { color: white; font-size: 20px; font-weight: bold; }
+        .nav-links a { color: #eef2f7; text-decoration: none; font-weight: 600; margin-left: 20px; }
     </style>
 </head>
 <body>
@@ -139,106 +105,185 @@
     <nav class="navbar">
         <div class="nav-logo">ClinicatPetDogs 🐾</div>
         <div class="nav-links">
-            <a href="/recepcao">Novo Atendimento</a>
             <a href="/painel">Painel de Atendimentos</a>
         </div>
     </nav>
 
-    <h1>Cadastro de Pacientes 🐾</h1>
+    <div class="container-atendimento">
+        <h1>Prontuário Médico Eletrônico </h1>
+        
+        <div class="info-triagem">
+            <p>🐾 <strong>Paciente:</strong> <span id="txtPaciente">Carregando...</span> (<span id="txtEspecie">...</span>)</p>
+            <p>⚖️ <strong>Peso Inicial:</strong> <span id="txtPeso">...</span> kg | 🌡️ <strong>Temperatura:</strong> <span id="txtTemperatura">...</span> °C</p>
+            <p>🩺 <strong>Sintomas relatados na Triagem:</strong></p>
+            <p id="txtSintomas" style="color: #555; font-style: italic; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0; margin-top: 5px;">...</p>
+        </div>
 
-    <form id="formPaciente">
+        <h2>Exames Laboratoriais / Imagem </h2>
         <div class="campo">
-            <label for="nomePet">Nome do Pet:</label>
-            <input type="text" id="nomePet" placeholder="Ex: Mel, Ozzy, Thor" required>
-        </div>
-
-        <div class="linha-dupla">
-            <div class="campo">
-                <label for="especie">Espécie:</label>
-                <input type="text" id="especie" placeholder="Ex: Cão, Gato" required>
-            </div>
-
-            <div class="campo">
-                <label for="raca">Raça:</label>
-                <input type="text" id="raca" placeholder="Ex: SRD, Poodle, Persa" required>
+            <label for="nomeExame">Solicitar Novo Exame:</label>
+            <div class="campo-horizontal">
+                <input type="text" id="nomeExame" placeholder="Ex: HEMOGRAMA COMPLETO, RAIO-X REGIONAL COLO">
+                <button type="button" class="btn-acao" id="btnSolicitarExame" onclick="pedirExame()">Pedir Exame ➕</button>
             </div>
         </div>
 
-        <div class="linha-dupla">
+        <div class="lista-exames" id="containerExames">
+            <p style="color: #777; font-style: italic;">Nenhum exame solicitado para este atendimento.</p>
+        </div>
+
+        <h2>Evolução Clinical e Receituário </h2>
+        <form id="formConsulta">
             <div class="campo">
-                <label for="idadePet">Idade:</label>
-                <input type="text" id="idadePet" placeholder="Ex: 5 anos ou 3 meses">
+                <label for="diagnostico">Diagnóstico / Evolução Clínica:</label>
+                <textarea id="diagnostico" placeholder="Descreva o quadro do paciente, exames físicos realizados..." required></textarea>
             </div>
 
             <div class="campo">
-                <label for="sexo">Sexo:</label>
-                <select id="sexo" required>
-                    <option value="">Selecione...</option>
-                    <option value="Femea">Fêmea</option>
-                    <option value="Macho">Macho</option>
-                    <option value="Nao_definido">Não definido</option>
+                <label for="receita">Prescrição / Medicamentos:</label>
+                <textarea id="receita" placeholder="Ex: Dipirona Gotas - 5 gotas a cada 8h por 3 dias."></textarea>
+            </div>
+
+            <div class="campo">
+                <label for="proximoPasso">Encaminhamento / Próximo Passo:</label>
+                <select id="proximoPasso" required>
+                    <option value="">Selecione o destino do pet...</option>
+                    <option value="EM ATENDIMENTO">Permanecer: Em Atendimento 🔵</option>
+                    <option value="AGUARDANDO EXAME">Mudar para: Aguardando Exame 🟠</option>
+                    <option value="EM OBSERVAÇÃO">Mudar para: Em Observação 🟣</option>
+                    <option value="EM INTERNAÇÃO">Mudar para: Em Internação 🏥</option>
+                    <option value="FINALIZADO">Dar Alta / Finalizar Atendimento ✔️</option>
                 </select>
             </div>
-        </div>
 
-        <div class="campo">
-            <label for="castrado">O animal é castrado?</label>
-            <select id="castrado" required>
-                <option value="">Selecione...</option>
-                <option value="SIM">Sim</option>
-                <option value="NAO">Não</option>
-            </select>
-        </div>
-
-        <div class="campo">
-            <label for="nomeTutor">Nome do Tutor:</label>
-            <input type="text" id="nomeTutor" placeholder="Nome completo do tutor" required>
-        </div>
-
-        <div class="campo">
-            <label for="telefone">Telefone de Contato:</label>
-            <input type="tel" id="telefone" placeholder="Ex: (34) 99999-9999" required>
-        </div>
-
-        <button type="submit">Finalizar Cadastro</button>
-    </form>
+            <div class="botoes">
+                <button type="button" class="btn-voltar" onclick="window.location.href='/painel'">Voltar ao Painel</button>
+                <button type="submit" class="btn-salvar">Salvar no Prontuário </button>
+            </div>
+        </form>
+    </div>
 
     <script>
-        const form = document.getElementById("formPaciente");
-        form.addEventListener("submit", function(event) {
-            event.preventDefault();
+        const urlParams = new URLSearchParams(window.location.search);
+        const idAtendimento = urlParams.get('id');
 
-            // Mapeando exatamente as colunas estruturadas no seu back/banco
-            const dados = {
-                PACIENTE: document.getElementById("nomePet").value.trim().toUpperCase(),
-                TUTOR: document.getElementById("nomeTutor").value.trim().toUpperCase(),
-                IDADE: document.getElementById("idadePet").value.trim().toUpperCase(),
-                ESPECIE: document.getElementById("especie").value.trim().toUpperCase(),
-                SEXO: document.getElementById("sexo").value,
-                RACA: document.getElementById("raca").value.trim().toUpperCase(),
-                CASTRADO: document.getElementById("castrado").value,
-                TELEFONE: document.getElementById("telefone").value.trim()
-            };
+        if (!idAtendimento) {
+            alert("Atendimento não especificado.");
+            window.location.href = "/painel";
+        }
 
-            fetch("http://localhost:3001/pacientes", {
+        fetch(`http://localhost:3001/atendimentos/${idAtendimento}`)
+        .then(res => {
+            if(!res.ok) throw new Error();
+            return res.json();
+        })
+        .then(atendimento => {
+            document.getElementById("txtPaciente").textContent = atendimento.PACIENTE;
+            document.getElementById("txtEspecie").textContent = atendimento.especie || "Não informada";
+            document.getElementById("txtPeso").textContent = atendimento.PESO || "---";
+            document.getElementById("txtTemperatura").textContent = atendimento.TEMPERATURA || "---";
+            document.getElementById("txtSintomas").textContent = atendimento.SINTOMAS || "Nenhum sintoma registrado.";
+
+            if(atendimento.DIAGNOSTICO) document.getElementById("diagnostico").value = atendimento.DIAGNOSTICO;
+            if(atendimento.RECEITA) document.getElementById("receita").value = atendimento.RECEITA;
+            if(atendimento.SITUACAO) document.getElementById("proximoPasso").value = atendimento.SITUACAO;
+            
+            carregarExames();
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Erro ao carregar dados do atendimento.");
+        });
+
+        function carregarExames() {
+            const container = document.getElementById("containerExames");
+            
+            fetch(`http://localhost:3001/atendimentos/${idAtendimento}/exames`)
+            .then(res => res.json())
+            .then(exames => {
+                if (exames.length === 0) {
+                    container.innerHTML = '<p style="color: #777; font-style: italic;">Nenhum exame solicitado para este atendimento.</p>';
+                    return;
+                }
+                
+                container.innerHTML = "";
+                exames.forEach(ex => {
+                    const statusClasse = ex.STATUS === 'PRONTO' ? 'status-pronto' : 'status-solicitado';
+                    const laudoHTML = ex.STATUS === 'PRONTO' 
+                        ? `<div class="laudo-texto"><strong>Laudo (${ex.DATA_RESULTADO}):</strong> ${ex.RESULTADO_LAUDO} <br><small>Resp: ${ex.LABORATORIO_RESPONSAVEL}</small></div>` 
+                        : '<div class="laudo-texto" style="color: #999; border-color: #cbd5e1;">Aguardando liberação do laboratório...</div>';
+
+                    container.innerHTML += `
+                        <div class="item-exame">
+                            <div class="topo">
+                                <span> ${ex.NOME_EXAME}</span>
+                                <span class="${statusClasse}">${ex.STATUS}</span>
+                            </div>
+                            ${laudoHTML}
+                        </div>
+                    `;
+                });
+            })
+            .catch(err => console.error("Erro ao carregar exames:", err));
+        }
+
+        function pedirExame() {
+            const nomeExame = document.getElementById("nomeExame").value.trim();
+            
+            if (!nomeExame) {
+                alert("Por favor, digite o nome do exame!");
+                return;
+            }
+
+            fetch(`http://localhost:3001/atendimentos/${idAtendimento}/exames`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(dados)
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ NOME_EXAME: nomeExame })
             })
-            .then(response => {
-                if(!response.ok) throw new Error();
-                return response.json();
+            .then(res => {
+                if (!res.ok) throw new Error("Erro ao solicitar exame.");
+                return res.json();
             })
-            .then(() => {
-                alert("Paciente cadastrado com sucesso! 🐾");
-                form.reset();
+            .then(dados => {
+                alert("Exame solicitado com sucesso! O pet foi movido para a fila do Lab 🧪");
+                document.getElementById("nomeExame").value = ""; 
+                
+                // Força o select a mudar para "AGUARDANDO EXAME" na interface do usuário
+                const selectPasso = document.getElementById("proximoPasso");
+                if (selectPasso) {
+                    selectPasso.value = "AGUARDANDO EXAME";
+                }
+
+                carregarExames(); 
             })
-            .catch(error => {
-                console.error(error);
-                alert("Erro ao cadastrar paciente.");
+            .catch(err => {
+                console.error(err);
+                alert("Erro ao pedir o exame. Verifique o servidor.");
             });
+        }
+
+        document.getElementById("formConsulta").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const diagnostico = document.getElementById("diagnostico").value.trim().toUpperCase();
+            const receita = document.getElementById("receita").value.trim().toUpperCase();
+            const novaSituacao = document.getElementById("proximoPasso").value;
+
+            fetch(`http://localhost:3001/atendimentos/${idAtendimento}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    SITUACAO: novaSituacao,
+                    DIAGNOSTICO: diagnostico,
+                    RECEITA: receita
+                })
+            })
+            .then(res => {
+                if(!res.ok) throw new Error();
+                alert("Prontuário médico e status atualizados com sucesso! 🐾");
+                window.location.href = "/painel";
+            })
+            .catch(() => alert("Erro ao salvar prontuário médico."));
         });
     </script>
 </body>
