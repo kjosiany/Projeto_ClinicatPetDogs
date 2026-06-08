@@ -68,8 +68,8 @@
 
     <div class="container-lab">
         <div class="cabecalho-lab">
-            <h2>Área de Análises Clínicas e Diagnóstico 🔬</h2>
-            <p>Fila de exames solicitados pelos veterinários em tempo real</p>
+            <h2>Área de Análises Clínicas e Diagnóstico </h2>
+            <p>Fila de exames solicitados pelos veterinários</p>
         </div>
 
         <div class="secao-tabela">
@@ -113,7 +113,6 @@
                     const p = fetch(`http://localhost:3001/atendimentos/${at.ID_ATENDIMENTO}/exames`)
                         .then(r => r.json())
                         .then(exames => {
-                            // Passamos os dados do pet para frente junto com os exames
                             return { 
                                 idAtendimento: at.ID_ATENDIMENTO, 
                                 paciente: at.PACIENTE, 
