@@ -140,7 +140,7 @@
         </div>
     </nav>
 
-    <h1>Nova Recepção e Triagem 📋</h1>
+    <h1>Nova Recepção e Triagem </h1>
 
     <form id="formAtendimento">
         <div class="campo">
@@ -158,9 +158,9 @@
             <div class="campo">
                 <label for="situacao">Classificação Inicial:</label>
                 <select id="situacao" required>
-                    <option value="AGUARDANDO ATENDIMENTO">Aguardando Atendimento ⏳</option>
-                    <option value="EM OBSERVAÇÃO">Direto para Observação 🟣</option>
-                    <option value="EM INTERNAÇÃO">Direto para Internação 🏥</option>
+                    <option value="AGUARDANDO ATENDIMENTO">Aguardando Atendimento </option>
+                    <option value="EM OBSERVAÇÃO">Direto para Observação </option>
+                    <option value="EM INTERNAÇÃO">Direto para Internação </option>
                 </select>
             </div>
         </div>
@@ -203,7 +203,6 @@
         .then(pacientes => {
             selectPacientes.innerHTML = '<option value="">Selecione...</option>';
             pacientes.forEach(p => {
-                // Ajustado para ID_PACIENTE conforme sua nova estrutura estruturada
                 const id = p.ID_PACIENTE || p.ID; 
                 selectPacientes.innerHTML += `<option value="${id}">${p.PACIENTE} (Tutor: ${p.TUTOR})</option>`;
             });
@@ -212,7 +211,6 @@
             selectPacientes.innerHTML = '<option value="">Erro ao carregar pacientes</option>';
         });
 
-        // Envia a triagem completa para o Backend
         form.addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -222,7 +220,6 @@
                 VETERINARIO: document.getElementById("veterinario").value.trim().toUpperCase(),
                 SITUACAO: document.getElementById("situacao").value,
                 
-                // Pegando os novos valores numéricos
                 PESO: parseFloat(document.getElementById("peso").value),
                 TEMPERATURA: parseFloat(document.getElementById("temperatura").value),
                 
@@ -241,7 +238,7 @@
             .then(() => {
     const msg = document.getElementById("mensagem");
     msg.style.display = "block";
-    msg.style.color = "#1f7a1f"; // ⬅️ Corrigido aqui! Estava faltando a aspa inicial antes do #
+    msg.style.color = "#1f7a1f"; 
     msg.textContent = "🐾 Atendimento registrado com sucesso!";
     form.reset();
     document.getElementById('data').value = new Date().toISOString().slice(0, 16);
