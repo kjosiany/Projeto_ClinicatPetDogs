@@ -112,46 +112,48 @@
     </form>
 
     <script>
-        const form = document.getElementById("formLogin");
+       document.getElementById("formLogin").addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-        form.addEventListener("submit", async function(event) {
-            event.preventDefault();
+    const nomeUser = document.getElementById("nomeUser").value;
+    const Password = document.getElementById("Password").value;
+    const msg = document.getElementById("mensagem");
 
-            const nomeUser = document.getElementById("nomeUser").value;
-            const Password = document.getElementById("Password").value;
-            const msg = document.getElementById("mensagem");
-
-            try {
-                // Altere para a URL completa caso seu backend rode em outra porta (ex: http://localhost:3001/login)
-                const resposta = await fetch("http://localhost:3001/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        USUARIO: nomeUser,
-                        SENHA: Password
-                    })
-                });
-
-                const dados = await resposta.json();
-                msg.textContent = dados.mensagem;
-
-                if (resposta.ok) {
-                    msg.style.color = "#1f7a1f";
-                    msg.style.fontWeight = "bold";
-                } else {
-                    msg.style.color = "#b22222";
-                    msg.style.fontWeight = "bold";
-                }
-
-            } catch (erro) {
-                console.log(erro);
-                msg.textContent = "Erro ao conectar com o servidor. 🐾";
-                msg.style.color = "#b22222";
-                msg.style.fontWeight = "bold";
-            }
+    try {
+        const resposta = await fetch("http://localhost:3001/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                USUARIO: nomeUser,
+                SENHA: Password
+            })
         });
+
+        const dados = await resposta.json();
+        msg.textContent = dados.mensagem;
+
+        if (resposta.ok) {
+            msg.style.color = "#1f7a1f";
+            msg.style.fontWeight = "bold";
+
+            setTimeout(() => {
+                window.location.href = "http://localhost:3001/";
+            }, 1000);
+
+        } else {
+            msg.style.color = "#b22222";
+            msg.style.fontWeight = "bold";
+        }
+
+    } catch (erro) {
+        console.log(erro);
+        msg.textContent = "Erro ao conectar com o servidor. 🐾";
+        msg.style.color = "#b22222";
+        msg.style.fontWeight = "bold";
+    }
+});
     </script>
 </body>
 </html>
